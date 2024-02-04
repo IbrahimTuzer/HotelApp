@@ -15,7 +15,7 @@ const UserStack = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: '#0C2D57',
+          backgroundColor: '#D9D9D9',
         },
       }}
     >
@@ -24,7 +24,7 @@ const UserStack = () => {
         component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="home" size={24} color={focused ? 'tomato' : 'white'} />
+            <AntDesign name="home" size={24} color={focused ? 'tomato' : 'black'} />
           ),
         }}
       />
@@ -34,7 +34,7 @@ const UserStack = () => {
         component={HistoryPage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="history" size={24} color={focused ? 'tomato' : 'white'} />
+            <FontAwesome name="history" size={24} color={focused ? 'tomato' : 'black'} />
           ),
         }}
       />
@@ -44,7 +44,7 @@ const UserStack = () => {
         component={Map}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Entypo name="map" size={24} color={focused ? 'tomato' : 'white'} />
+            <Entypo name="map" size={24} color={focused ? 'tomato' : 'black'} />
           ),
         }}
       />
@@ -54,7 +54,7 @@ const UserStack = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="user" size={24} color={focused ? 'tomato' : 'white'} />
+            <AntDesign name="user" size={24} color={focused ? 'tomato' : 'black'} />
           ),
         }}
       />

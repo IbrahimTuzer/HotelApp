@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   Image,
+  
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   logoImage: {
-    position: "absolute",
+    // position: "absolute",
     top: 100,
     width: 350,
     height: 96,
