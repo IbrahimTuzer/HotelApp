@@ -6,7 +6,6 @@ import {
   TextInput,
   Pressable,
   Image,
-  
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -35,9 +34,9 @@ const LoginPage = ({ navigation }) => {
     dispatch(login({ email, password }));
   };
 
-  // useEffect(() => {
-  //   dispatch(autoLogin());
-  // }, []);
+  useEffect(() => {
+    dispatch(autoLogin());
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,9 +61,10 @@ const LoginPage = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputText}
+            autoCapitalize="none"
             placeholder="Email"
             placeholderTextColor="black"
-            onChangeText={(text) => setEmail(text.toLowerCase())}
+            onChangeText={(text) => setEmail(text)}
             value={email}
           />
           <TextInput
