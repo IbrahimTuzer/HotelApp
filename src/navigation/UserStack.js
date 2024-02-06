@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome, Feather } from '@expo/vector-icons';
 
 import { HomePage, Map, HistoryPage, Profile, Detail, Reservation } from '../screens';
 
@@ -22,7 +22,7 @@ const MainTabNavigator = () => {
         component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="home" size={24} color={focused ? 'tomato' : 'black'} />
+            <AntDesign name="home" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -32,7 +32,7 @@ const MainTabNavigator = () => {
         component={HistoryPage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="history" size={24} color={focused ? 'tomato' : 'black'} />
+            <MaterialIcons name="history" size={focused ? 32 : 26} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -42,7 +42,7 @@ const MainTabNavigator = () => {
         component={Map}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Entypo name="map" size={24} color={focused ? 'tomato' : 'black'} />
+            < Feather name="map-pin" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -52,7 +52,7 @@ const MainTabNavigator = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="user" size={24} color={focused ? 'tomato' : 'black'} />
+            <AntDesign name="user" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />

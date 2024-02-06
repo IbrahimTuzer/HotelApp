@@ -15,15 +15,25 @@ import Hotels from "../components/Hotels";
 const HomePage = () => {
   const [searchText, setSearchText] = useState("");
   const [hotels, setHotels] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
 
   const filterHotels = () => {
-    return hotels.filter((item) =>
+    const filteredHotels = hotels.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase())
     );
+
+    // Check if a district is selected for filtering
+    if (selectedDistrict) {
+      return filteredHotels.filter((hotel) =>
+        hotel.district.toLowerCase() === selectedDistrict.toLowerCase()
+      );
+    }
+
+    return filteredHotels;
   };
 
   useEffect(() => {
-    const data = async () => {
+    const fetchData = async () => {
       try {
         const value = await getData();
         setHotels(value);
@@ -33,8 +43,8 @@ const HomePage = () => {
       }
     };
 
-    data();
-  }, [getData]);
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -69,23 +79,22 @@ const HomePage = () => {
       </View>
 
       <View style={styles.filterContainer}>
-        <Filter />
+        <Filter
+          districts={hotels.map((hotel) => hotel.district)}
+          onSelectDistrict={(district) => setSelectedDistrict(district)}
+        />
       </View>
 
       <View style={styles.FlatListContainer}>
         <FlatList
           data={filterHotels()}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => 
-          <Hotels
-           data={item}/>}
-         
+          renderItem={({ item }) => <Hotels data={item} />}
         />
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -129,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   filterContainer: {
-    width: "95%",
+    width: "100%",
   },
   FlatListContainer: {
     flex: 3,

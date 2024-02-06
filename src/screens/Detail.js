@@ -12,6 +12,7 @@ import React from "react";
 import Rooms from "../components/Rooms";
 
 const Detail = ({ navigation, route }) => {
+
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -92,6 +93,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginLeft: 10,
     fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C6968",
+    
   },
   adressRatinContainer: {
     flex: 1,

@@ -3,12 +3,11 @@ import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 
 const hotels = [
-  { id: 1, name: 'Hotel A', latitude: 37.0351, longitude: 27.4305 },
-  { id: 2, name: 'Hotel B', latitude: 36.8556, longitude: 28.2680 },
-  { id: 3, name: 'Hotel C', latitude: 37.0340, longitude: 27.4339 }, 
-  { id: 4, name: 'Hotel D', latitude: 36.9714, longitude: 28.2115 }, 
-  { id: 5, name: 'Hotel E', latitude: 36.8569, longitude: 28.2694 }, 
- 
+  { id: 1, name: 'Paşa Beach', latitude: 37.0351, longitude: 27.4305 },
+  { id: 3, name: 'Casa Mera', latitude: 37.0340, longitude: 27.4339 },
+  { id: 4, name: 'Antalya Hotel', latitude: 36.8841, longitude: 30.7056 },
+  { id: 5, name: 'Marmaris Resort', latitude: 36.8550, longitude: 28.2745 },
+  { id: 6, name: 'Akyaka Lodge', latitude: 37.0558, longitude: 28.3315 },
 ];
 
 const Map = () => {

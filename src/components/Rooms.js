@@ -17,7 +17,7 @@ const Rooms = (props) => {
             <ImageBackground source={{ uri: props.roomsImage[index] }} style={styles.imageStyle}>
               <Text style={styles.defaultStyle}>{room}</Text>
             </ImageBackground>
-            <Text>{props.roomsPrices[index]}</Text>
+            
             <Text style={styles.statement}>{props.roomsStatement[index]}</Text>
             <TouchableOpacity
               style={styles.button}
