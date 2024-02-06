@@ -6,6 +6,8 @@ import HomePage from "./HomePage";
 import HistoryPage from "./HistoryPage";
 import Profile from "./Profile";
 import Map from "./Map";
+import Detail from "./Detail";
+import Reservation from "./Reservation";
 
 export{
 
@@ -17,6 +19,8 @@ export{
     HistoryPage,
     Profile,
     Map,
+    Detail,
+    Reservation,
 
 
 }

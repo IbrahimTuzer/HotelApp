@@ -1,14 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Ionicons, Entypo, FontAwesome} from '@expo/vector-icons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
 
-import { HomePage, Map, HistoryPage, Profile } from '../screens';
+import { HomePage, Map, HistoryPage, Profile, Detail, Reservation } from '../screens';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-const UserStack = () => {
+const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -59,13 +57,21 @@ const UserStack = () => {
         }}
       />
 
-      {/* <Tab.Screen
-        name='HistoryPage'
-        component={HistoryPage}
-        options={{ tabBarButton: () => null }}
-      /> */}
+        <Tab.Screen name='Detail'
+                  component={Detail}
+                  options={{ tabBarButton: () => null }}/>
+      
+
+
+      <Tab.Screen name='Reservation'
+                  component={Reservation}
+                  options={{ tabBarButton: () => null }}/>
+
+
+
+
     </Tab.Navigator>
   );
 };
 
-export default UserStack;
+export default MainTabNavigator;
