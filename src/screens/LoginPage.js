@@ -6,7 +6,7 @@ import {
   TextInput,
   Pressable,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -35,15 +35,12 @@ const LoginPage = ({ navigation }) => {
     dispatch(login({ email, password }));
   };
 
-  // useEffect(() => {
-  //   dispatch(autoLogin());
-  // }, []);
+  useEffect(() => {
+    dispatch(autoLogin());
+  }, []);
 
   return (
-
-    <SafeAreaView
-      style={styles.container}>
-      
+    <SafeAreaView style={styles.container}>
       <View style={styles.mainContainer}>
         <View style={styles.backIconContainer}>
           <Pressable
@@ -56,15 +53,13 @@ const LoginPage = ({ navigation }) => {
           </Pressable>
         </View>
         <View style={styles.ImageContainer}>
-        <Image
-          style={styles.logoImage}
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/hotelapp-69717.appspot.com/o/images%2Fhotel_findr_logo.png?alt=media&token=f90f0d66-4ba5-49fa-a559-92486516ac24",
-          }}
-        />
+          <Image
+            style={styles.logoImage}
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/hotelapp-69717.appspot.com/o/images%2Fhotel_findr_logo.png?alt=media&token=f90f0d66-4ba5-49fa-a559-92486516ac24",
+            }}
+          />
         </View>
-
-       
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -75,7 +70,7 @@ const LoginPage = ({ navigation }) => {
             onChangeText={(text) => setEmail(text)}
             value={email}
           />
-          
+
           <TextInput
             style={styles.inputText}
             placeholder="Password"
@@ -89,8 +84,7 @@ const LoginPage = ({ navigation }) => {
         <View style={styles.errorMessageContainer}>
           <Text style={styles.errorText}>{handleErrorMessage}</Text>
         </View>
-       
-        
+
         <View style={styles.buttonContainer}>
           <MyButton title="Login" handleButton={handleLogin} />
 
@@ -108,10 +102,7 @@ const LoginPage = ({ navigation }) => {
             <Text style={styles.Text}>Sign Up</Text>
           </Pressable>
         </View>
-      
-        
       </View>
-      
     </SafeAreaView>
   );
 };
@@ -137,8 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "95%",
   },
-  ImageContainer:{
-    
+  ImageContainer: {
     justifyContent: "center",
     alignItems: "center",
   },
