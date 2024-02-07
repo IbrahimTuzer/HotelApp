@@ -11,23 +11,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import HistoryBox from "../components/HistoryBox";
 import { getReservationData } from "../../api";
+import { useSelector } from "react-redux";
 
 const HistoryPage = ({ navigation }) => {
   const [reservationHotels, setReservationHotels] = useState([]);
 
+  const { user } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const value = await getReservationData();
-        setReservationHotels(value);
-        console.log("reservationHotels", value);
+        const allReservations = await getReservationData();
+        // Kullanıcıya ait rezervasyonları filtrelemek için
+        const filteredReservations = allReservations.filter(
+          (reservation) => reservation.userMail === user.email
+        );
+        setReservationHotels(filteredReservations);
+        console.log("Filtered reservation data:", filteredReservations);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [getReservationData]);
+  }, [user]);
 
   return (
     <SafeAreaView style={styles.container}>
