@@ -27,7 +27,7 @@ const HistoryPage = ({ navigation }) => {
           (reservation) => reservation.userMail === user.email
         );
         setReservationHotels(filteredReservations);
-        console.log("Filtered reservation data:", filteredReservations);
+       
       } catch (error) {
         console.error("Error fetching data:", error);
       }

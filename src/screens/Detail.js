@@ -17,7 +17,8 @@ const Detail = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
-          <View style={styles.backIconContainer}>
+          
+         <View style={styles.backIconContainer}>
             <Pressable
               style={({ pressed }) => [
                 { transform: [{ translateX: pressed ? -5 : 0 }] },
@@ -30,7 +31,7 @@ const Detail = ({ navigation, route }) => {
           <View style={styles.logoContainer}>
             <Image
               style={styles.logoImage}
-              source={{
+              source={{ 
                 uri: "https://firebasestorage.googleapis.com/v0/b/hotelapp-69717.appspot.com/o/images%2Fhotel_findr_logo.png?alt=media&token=f90f0d66-4ba5-49fa-a559-92486516ac24",
               }}
             />
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     width: "100%",
-    marginTop: 30,
     marginVertical: 5,
     alignItems: "center",
     justifyContent: "center",
