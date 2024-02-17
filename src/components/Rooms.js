@@ -13,7 +13,7 @@ const Rooms = (props) => {
   const navigation = useNavigation();
 
   const handleSelectRoom = (selectedRoom) => {
-    navigation.navigate("Reservation", { selectedRoom } );
+    navigation.navigate("Reservation", { selectedRoom });
   };
 
   return (
@@ -37,12 +37,11 @@ const Rooms = (props) => {
                   image: props.roomsImage[index],
                   price: props.roomsPrices[index],
                   statement: props.roomsStatement[index],
-                  name: props.roomsData.name
-                
+                  name: props.roomsData.name,
                 })
               }
             >
-              <Text style={styles.buttonText}>Selected Room</Text>
+              <Text style={styles.buttonText}>Odayı Seç</Text>
             </TouchableOpacity>
           </View>
         </View>

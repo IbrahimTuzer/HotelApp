@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
     const handleConfirmPassword = () => {
       if (password !== confirmPassword) {
         setIsButtonDisable(true);
-        setHandleErrorMessage("Eşleşmiyor Kardedişim!");
+        setHandleErrorMessage("Eşleşmiyor!");
       } else {
         setIsButtonDisable(false);
         setHandleErrorMessage("");
@@ -71,14 +71,14 @@ const SignUp = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputText}
-            placeholder="Enter your email"
+            placeholder="E-postanızı Giriniz"
             placeholderTextColor={"black"}
             onChangeText={(text) => setEmail(text.toLowerCase())}
             value={email}
           />
           <TextInput
             style={styles.inputText}
-            placeholder="Enter your password"
+            placeholder="Şifrenizi Giriniz"
             placeholderTextColor={"black"}
             onChangeText={setPassword}
             value={password}
@@ -86,7 +86,7 @@ const SignUp = ({ navigation }) => {
           />
           <TextInput
             style={styles.inputText}
-            placeholder="Re-Enter your password"
+            placeholder="Şifrenizi Tekrar Giriniz"
             placeholderTextColor={"black"}
             onChangeText={setConfirmPassword}
             value={confirmPassword}
@@ -100,7 +100,7 @@ const SignUp = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <MyButton
-            title="Sign Up"
+            title="Kayıt Ol"
             handleButton={SignUpData}
             isDisable={isButtonDisable}
           />
@@ -109,7 +109,7 @@ const SignUp = ({ navigation }) => {
             style={styles.loginButton}
             onPress={() => navigation.navigate("LoginPage")}
           >
-            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.loginText}>Giriş yap</Text>
           </Pressable>
         </View>
       </View>

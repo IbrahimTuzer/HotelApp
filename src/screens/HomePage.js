@@ -24,8 +24,9 @@ const HomePage = () => {
 
     // Check if a district is selected for filtering
     if (selectedDistrict) {
-      return filteredHotels.filter((hotel) =>
-        hotel.district.toLowerCase() === selectedDistrict.toLowerCase()
+      return filteredHotels.filter(
+        (hotel) =>
+          hotel.district.toLowerCase() === selectedDistrict.toLowerCase()
       );
     }
 
@@ -67,10 +68,10 @@ const HomePage = () => {
           />
 
           <View style={styles.overlay}>
-            <Text style={styles.searchText}>Find Your Room</Text>
+            <Text style={styles.searchText}>Sana Uygun Tatili Bul</Text>
             <TextInput
               style={styles.searchInput}
-              placeholder="Find your room"
+              placeholder="Otel Bul..."
               value={searchText}
               onChangeText={(text) => setSearchText(text)}
             />

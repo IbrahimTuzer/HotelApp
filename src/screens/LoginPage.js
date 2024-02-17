@@ -65,7 +65,7 @@ const LoginPage = ({ navigation }) => {
           <TextInput
             style={styles.inputText}
             autoCapitalize="none"
-            placeholder="Email"
+            placeholder="E-posta"
             placeholderTextColor="black"
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -73,7 +73,7 @@ const LoginPage = ({ navigation }) => {
 
           <TextInput
             style={styles.inputText}
-            placeholder="Password"
+            placeholder="Şifre"
             placeholderTextColor="black"
             onChangeText={setPassword}
             value={password}
@@ -86,20 +86,20 @@ const LoginPage = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <MyButton title="Login" handleButton={handleLogin} />
+          <MyButton title="Giriş yap" handleButton={handleLogin} />
 
           <Pressable
             style={styles.TextButton}
             onPress={() => navigation.navigate("ForgotPassword")}
           >
-            <Text style={styles.Text}>Forgot Password</Text>
+            <Text style={styles.Text}>Şifremi Unuttum!</Text>
           </Pressable>
 
           <Pressable
             style={styles.TextButton}
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={styles.Text}>Sign Up</Text>
+            <Text style={styles.Text}>Kayıt ol</Text>
           </Pressable>
         </View>
       </View>

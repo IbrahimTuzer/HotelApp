@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,13 +12,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { sendReservationData } from "../../api";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { addReservation } from "../redux/reservationSlice";
 
 const Reservation = ({ navigation, route }) => {
   const { user } = useSelector((state) => state.user);
-  const { selectedRoom} = route.params;
-   
+  const dispatch = useDispatch();
+  const { selectedRoom } = route.params;
+
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [numberOfNights, setNumberOfNights] = useState(0);
@@ -34,6 +35,7 @@ const Reservation = ({ navigation, route }) => {
       setCheckOutDate(new Date());
       setNumberOfNights(0);
       setTotalPrice(selectedRoom.price);
+
       setReservationSuccess(false); // Rezervasyon başarısını sıfırla
     }
   }, [reservationSuccess, selectedRoom.price]);
@@ -83,6 +85,7 @@ const Reservation = ({ navigation, route }) => {
           };
           await sendReservationData(reservationData);
           setReservationSuccess(true);
+          dispatch(addReservation(reservationData));
         } else {
           // Eğer tarihler tam olarak seçilmiş ama totalPrice veya numberOfNights 0 ise kullanıcıyı uyar
           console.log("Please select valid check-in and check-out dates.");
@@ -118,12 +121,12 @@ const Reservation = ({ navigation, route }) => {
         </View>
       </View>
 
-      <View style={{ borderBottomWidth: 2, width: "40%", marginLeft: 5,}}>
-        <Text style={styles.roomText}>Your Room</Text>
+      <View style={{ borderBottomWidth: 2, width: "40%", marginLeft: 5 }}>
+        <Text style={styles.roomText}>Seçilen Oda</Text>
       </View>
 
       <View style={styles.roomContainer}>
-        <View style={{ flex: 1, width: "70%" }}>
+        <View style={{ flex: 1, width: "95%" }}>
           <ImageBackground
             style={styles.roomImage}
             source={{ uri: selectedRoom.image }}
@@ -141,47 +144,46 @@ const Reservation = ({ navigation, route }) => {
       </View>
 
       <View style={styles.chooseContainer}>
-  <View style={styles.dateInputContainer}>
-    <Pressable
-      style={styles.dateInput}
-      onPress={() => setShowCheckInDatePicker(true)}
-    >
-      <Text style={styles.dateInputText}>
-        Check-in Date: {checkInDate.toLocaleDateString()}
-      </Text>
-    </Pressable>
-    {showCheckInDatePicker && (
-      <DateTimePicker
-        value={checkInDate}
-        mode="date"
-        display="default"
-        onChange={handleCheckInDateChange}
-        minimumDate={new Date()}
-      />
-    )}
-  </View>
+        <View style={styles.dateInputContainer}>
+          <Pressable
+            style={styles.dateInput}
+            onPress={() => setShowCheckInDatePicker(true)}
+          >
+            <Text style={styles.dateInputText}>
+              Giriş Tarihi: {checkInDate.toLocaleDateString()}
+            </Text>
+          </Pressable>
+          {showCheckInDatePicker && (
+            <DateTimePicker
+              value={checkInDate}
+              mode="date"
+              display="default"
+              onChange={handleCheckInDateChange}
+              minimumDate={new Date()}
+            />
+          )}
+        </View>
 
-  <View style={styles.dateInputContainer}>
-    <Pressable
-      style={styles.dateInput}
-      onPress={() => setShowCheckOutDatePicker(true)}
-    >
-      <Text style={styles.dateInputText}>
-        Check-out Date: {checkOutDate.toLocaleDateString()}
-      </Text>
-    </Pressable>
-    {showCheckOutDatePicker && (
-      <DateTimePicker
-        value={checkOutDate}
-        mode="date"
-        display="default"
-        onChange={handleCheckOutDateChange}
-        minimumDate={checkInDate}
-      />
-    )}
-  </View>
-</View>
-
+        <View style={styles.dateInputContainer}>
+          <Pressable
+            style={styles.dateInput}
+            onPress={() => setShowCheckOutDatePicker(true)}
+          >
+            <Text style={styles.dateInputText}>
+              Çıkış Tarihi: {checkOutDate.toLocaleDateString()}
+            </Text>
+          </Pressable>
+          {showCheckOutDatePicker && (
+            <DateTimePicker
+              value={checkOutDate}
+              mode="date"
+              display="default"
+              onChange={handleCheckOutDateChange}
+              minimumDate={checkInDate}
+            />
+          )}
+        </View>
+      </View>
 
       <View style={styles.payContainer}>
         <View
@@ -192,32 +194,43 @@ const Reservation = ({ navigation, route }) => {
             width: "90%",
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.priceText}>Price:{selectedRoom.price}</Text>
-            <MaterialIcons
-              style={styles.dolarIcon}
-              name="attach-money"
-              size={18}
-              color="#72BD39"
-            />
-            <Text style={{ fontSize: 20 }}> / Day</Text>
-          </View>
+          {totalPrice < selectedRoom.price ? (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.priceText}>Fiyat:{selectedRoom.price}</Text>
+              <MaterialIcons
+                style={styles.dolarIcon}
+                name="attach-money"
+                size={18}
+                color="#72BD39"
+              />
+              <Text style={{ fontSize: 20 }}>/Günlük</Text>
+            </View>
+          ) : (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.priceText}>Fiyat: {totalPrice}</Text>
+              <MaterialIcons
+                style={styles.dolarIcon}
+                name="attach-money"
+                size={18}
+                color="#72BD39"
+              />
+              <Text style={{ fontSize: 20 }}>/Toplam</Text>
+            </View>
+          )}
 
           {totalPrice > 0 && numberOfNights > 0 ? (
-        <Pressable
-        style={({ pressed }) => [
-          { transfsorm: [{ translateX: pressed ? -5 : 0 }] },
-          styles.button,
-        ]}
-        onPress={handleReservation}
-      >
-        <Text>Price Now</Text>
-      </Pressable>
-      ) : (
-        <Text style={styles.button}>Price Now</Text>
-      )}
-
-          
+            <Pressable
+              style={({ pressed }) => [
+                { transfsorm: [{ translateX: pressed ? -5 : 0 }] },
+                styles.button,
+              ]}
+              onPress={handleReservation}
+            >
+              <Text>Rezerve Et</Text>
+            </Pressable>
+          ) : (
+            <Text style={styles.button}>Rezerve Et</Text>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -253,6 +266,7 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 15,
   },
   roomImage: {
     marginTop: 10,
@@ -271,19 +285,29 @@ const styles = StyleSheet.create({
     left: 5,
     fontWeight: "bold",
   },
+  infoContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  infoImage: {
+    width: "90%",
+    borderRadius: 5,
+  },
   chooseContainer: {
     flex: 3,
-       justifyContent: 'center',
-       paddingHorizontal: 10,
+    justifyContent: "center",
+    paddingHorizontal: 10,
   },
   dateInputContainer: {
     marginBottom: 10,
+    backgroundColor: "white",
   },
   dateInput: {
     borderWidth: 1,
-       borderColor: '#ccc',
-       padding: 10,
-       borderRadius: 5,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 5,
   },
   dateInputText: {
     fontSize: 16,
@@ -292,7 +316,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    alignContent: "space-around",
+    justifyContent: "space-evenly",
     paddingHorizontal: 20,
   },
   button: {

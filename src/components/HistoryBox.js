@@ -23,12 +23,12 @@ const HistoryBox = (props) => {
             color="#72BD39"
           />
           <Text style={styles.price}>{price}</Text>
-          <Text style={styles.totalPriceText}>Total price</Text>
+          <Text style={styles.totalPriceText}>Toplam Fiyat</Text>
         </View>
-        <Text style={styles.stayText}>Length of stay</Text>
+        <Text style={styles.stayText}>Tatil Süresi</Text>
         <View style={styles.lengthDayContainer}>
           <Text style={styles.day}>{day}</Text>
-          <Text style={styles.dayText}>DAYS</Text>
+          <Text style={styles.dayText}>GÜN</Text>
         </View>
       </View>
       <View style={styles.imageContainer}>

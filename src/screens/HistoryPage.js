@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 
 const HistoryPage = ({ navigation }) => {
   const [reservationHotels, setReservationHotels] = useState([]);
+  const reservation = useSelector((state) => state.reservation.reservations);
 
   const { user } = useSelector((state) => state.user);
 
@@ -26,15 +27,18 @@ const HistoryPage = ({ navigation }) => {
         const filteredReservations = allReservations.filter(
           (reservation) => reservation.userMail === user.email
         );
+        // Oluşturulma tarihine göre sıralama
+        filteredReservations.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setReservationHotels(filteredReservations);
-       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [user]);
+  }, [user, reservation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -57,7 +61,7 @@ const HistoryPage = ({ navigation }) => {
         />
 
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Booking History</Text>
+          <Text style={styles.title}>Rezervasyon Geçmişi</Text>
         </View>
         <View style={styles.blackLine}></View>
       </View>
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     position: "absolute",
     top: 40,
-    left: -70,
+    left: -40,
     justifyContent: "center",
     alignItems: "center",
     width: "95%",

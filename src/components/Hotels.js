@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import React from 'react';
-import { useNavigation } from '@react-navigation/native'; 
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Hotels = (props) => {
   const navigation = useNavigation();
   const address =
-    props.data.address.length > 30 ? `${props.data.address.substring(0, 30)}...` : props.data.address;
+    props.data.address.length > 30
+      ? `${props.data.address.substring(0, 30)}...`
+      : props.data.address;
 
   const handleDataPress = () => {
-    navigation.navigate('Detail', { data: props.data });
+    navigation.navigate("Detail", { data: props.data });
   };
 
   return (
@@ -18,9 +20,15 @@ const Hotels = (props) => {
         <View style={styles.detailsContainer}>
           <Text style={styles.name}>{props.data.name}</Text>
           <View style={styles.address}>
-            <Image style={styles.map} source={require('../../assets/map.png')} />
+            <Image
+              style={styles.map}
+              source={require("../../assets/map.png")}
+            />
             <Text>{address}</Text>
-            <Image style={styles.star} source={require('../../assets/star.png')} />
+            <Image
+              style={styles.star}
+              source={require("../../assets/star.png")}
+            />
             <Text>{props.data.rating}</Text>
           </View>
         </View>
@@ -31,15 +39,15 @@ const Hotels = (props) => {
 
 const styles = StyleSheet.create({
   hotelContainer: {
-    width: '100%',
-    backgroundColor: '#D9D9D9',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    width: "100%",
+    backgroundColor: "#D9D9D9",
+
+    borderBottomColor: "#ccc",
     marginBottom: 10,
-    borderRadius: 40,
+    borderRadius: 30,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 80,
     borderRadius: 5,
     borderTopLeftRadius: 30,
@@ -50,18 +58,18 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   price: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#666',
+    color: "#666",
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
   map: {
@@ -73,11 +81,11 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 5,
-    tintColor: 'orange',
+    tintColor: "orange",
   },
   address: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
   },
 });

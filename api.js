@@ -5,6 +5,7 @@ import {
   getDocs,
   doc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // *******************************************************************************
@@ -70,6 +71,20 @@ export const getReservationData = async () => {
   } catch (error) {
     console.error("Error getting data: ", error);
     throw error;
+  }
+};
+
+// *******************************************************************************
+// *******************************************************************************
+
+export const deleteReservationData = async (reservationId) => {
+  try {
+    // Belgeyi sil
+    await deleteDoc(doc(db, "reservation", reservationId));
+    console.log("Document successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+    throw error; // Hata durumunda hatayı ileterek işlemi kesintiye uğrat
   }
 };
 
