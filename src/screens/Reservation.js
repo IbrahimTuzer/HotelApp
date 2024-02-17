@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -83,9 +84,27 @@ const Reservation = ({ navigation, route }) => {
             checkInDate: checkInDate.toISOString(),
             checkOutDate: checkOutDate.toISOString(),
           };
+  
           await sendReservationData(reservationData);
           setReservationSuccess(true);
           dispatch(addReservation(reservationData));
+  
+          // Show alert with options
+          Alert.alert(
+            "Rezerve Edildi",
+            "Rezervasyon işlemi başarıyla tamamlandı.",
+            [
+              {
+                text: "Ana Sayfaya Dön",
+                onPress: () => navigation.navigate("HomePage"),
+              },
+              {
+                text: "Rezervasyon Sayfasına Dön",
+                onPress: () => navigation.navigate("HistoryPage"),
+                style: "cancel",
+              },
+            ]
+          );
         } else {
           // Eğer tarihler tam olarak seçilmiş ama totalPrice veya numberOfNights 0 ise kullanıcıyı uyar
           console.log("Please select valid check-in and check-out dates.");
