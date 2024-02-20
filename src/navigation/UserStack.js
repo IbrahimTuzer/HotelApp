@@ -56,8 +56,8 @@ const MainTabNavigator = () => {
           ),
         }}
       />
-
-        <Tab.Screen name='Detail'
+      
+      <Tab.Screen name='Detail'
                   component={Detail}
                   options={{ tabBarButton: () => null }}/>
       
