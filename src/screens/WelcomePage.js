@@ -30,7 +30,7 @@ const WelcomePage = ({ navigation }) => {
 
       <Text style={styles.welcomeText}>Hoş Geldiniz!</Text>
       <View style={styles.buttonContainer}>
-        <MyButton title="Go on !" handleButton={onLoginPress} />
+        <MyButton title="Hadi Tatile !" handleButton={onLoginPress} />
       </View>
     </View>
   );

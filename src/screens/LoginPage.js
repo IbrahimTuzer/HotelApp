@@ -6,7 +6,7 @@ import {
   TextInput,
   Pressable,
   Image,
-  
+  KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -35,9 +35,9 @@ const LoginPage = ({ navigation }) => {
     dispatch(login({ email, password }));
   };
 
-  // useEffect(() => {
-  //   dispatch(autoLogin());
-  // }, []);
+  useEffect(() => {
+    dispatch(autoLogin());
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,24 +52,28 @@ const LoginPage = ({ navigation }) => {
             <Ionicons name="arrow-back" size={36} color="black" />
           </Pressable>
         </View>
-        <Image
-          style={styles.logoImage}
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/hotelapp-69717.appspot.com/o/images%2Fhotel_findr_logo.png?alt=media&token=f90f0d66-4ba5-49fa-a559-92486516ac24",
-          }}
-        />
+        <View style={styles.ImageContainer}>
+          <Image
+            style={styles.logoImage}
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/hotelapp-69717.appspot.com/o/images%2Fhotel_findr_logo.png?alt=media&token=f90f0d66-4ba5-49fa-a559-92486516ac24",
+            }}
+          />
+        </View>
 
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputText}
-            placeholder="Email"
+            autoCapitalize="none"
+            placeholder="E-posta"
             placeholderTextColor="black"
-            onChangeText={(text) => setEmail(text.toLowerCase())}
+            onChangeText={(text) => setEmail(text)}
             value={email}
           />
+
           <TextInput
             style={styles.inputText}
-            placeholder="Password"
+            placeholder="Şifre"
             placeholderTextColor="black"
             onChangeText={setPassword}
             value={password}
@@ -82,20 +86,20 @@ const LoginPage = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <MyButton title="Login" handleButton={handleLogin} />
+          <MyButton title="Giriş yap" handleButton={handleLogin} />
 
           <Pressable
             style={styles.TextButton}
             onPress={() => navigation.navigate("ForgotPassword")}
           >
-            <Text style={styles.Text}>Forgot Password</Text>
+            <Text style={styles.Text}>Şifremi Unuttum!</Text>
           </Pressable>
 
           <Pressable
             style={styles.TextButton}
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={styles.Text}>Sign Up</Text>
+            <Text style={styles.Text}>Kayıt ol</Text>
           </Pressable>
         </View>
       </View>
@@ -123,6 +127,10 @@ const styles = StyleSheet.create({
   backIconContainer: {
     flex: 1,
     width: "95%",
+  },
+  ImageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   logoImage: {
     // position: "absolute",
@@ -162,9 +170,7 @@ const styles = StyleSheet.create({
     color: "#F33",
   },
   buttonContainer: {
-    flex: 2,
     width: "100%",
-    position: "relative",
     bottom: 80,
     alignItems: "center",
     justifyContent: "center",

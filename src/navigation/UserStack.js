@@ -1,14 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Ionicons, Entypo, FontAwesome} from '@expo/vector-icons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AntDesign, MaterialIcons, FontAwesome, Feather } from '@expo/vector-icons';
 
-import { HomePage, Map, HistoryPage, Profile } from '../screens';
+import { HomePage, Map, HistoryPage, Profile, Detail, Reservation } from '../screens';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-const UserStack = () => {
+const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -24,7 +22,7 @@ const UserStack = () => {
         component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="home" size={24} color={focused ? 'tomato' : 'black'} />
+            <AntDesign name="home" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -34,7 +32,7 @@ const UserStack = () => {
         component={HistoryPage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="history" size={24} color={focused ? 'tomato' : 'black'} />
+            <MaterialIcons name="history" size={focused ? 32 : 26} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -44,7 +42,7 @@ const UserStack = () => {
         component={Map}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Entypo name="map" size={24} color={focused ? 'tomato' : 'black'} />
+            < Feather name="map-pin" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
@@ -54,18 +52,26 @@ const UserStack = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="user" size={24} color={focused ? 'tomato' : 'black'} />
+            <AntDesign name="user" size={focused ? 30 : 24} color={focused ? '#0C6968' : 'black'} />
           ),
         }}
       />
+      
+      <Tab.Screen name='Detail'
+                  component={Detail}
+                  options={{ tabBarButton: () => null }}/>
+      
 
-      {/* <Tab.Screen
-        name='HistoryPage'
-        component={HistoryPage}
-        options={{ tabBarButton: () => null }}
-      /> */}
+
+      <Tab.Screen name='Reservation'
+                  component={Reservation}
+                  options={{ tabBarButton: () => null }}/>
+
+
+
+
     </Tab.Navigator>
   );
 };
 
-export default UserStack;
+export default MainTabNavigator;
