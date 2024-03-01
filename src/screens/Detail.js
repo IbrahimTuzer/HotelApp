@@ -5,7 +5,6 @@ import {
   View,
   Image,
   ImageBackground,
-  FlatList,
   Pressable,
 } from "react-native";
 import React from "react";
