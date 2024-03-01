@@ -1,44 +1,33 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View, Image, StyleSheet } from "react-native";
 import React from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons"; // AntDesign silme ikonu için
 
-const HistoryBox = (props) => {
-  const title =
-    props.title.length > 10
-      ? `${props.title.substring(0, 10)}...`
-      : props.title;
-  const price = props.totalPrice;
-  const day = props.stayDay;
-  const image = props.image;
+const HistoryBox = ({ title, totalPrice, stayDay, image, onDelete }) => {
+  // onDelete prop'u eklendi
+  const formattedTitle =
+    title.length > 10 ? `${title.substring(0, 10)}...` : title;
 
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{formattedTitle}</Text>
         <View style={styles.priceContainer}>
-          <MaterialIcons
-            style={styles.dolarIcon}
-            name="attach-money"
-            size={18}
-            color="#72BD39"
-          />
-          <Text style={styles.price}>{price}</Text>
+          <MaterialIcons name="attach-money" size={18} color="#72BD39" />
+          <Text style={styles.price}>{totalPrice}</Text>
           <Text style={styles.totalPriceText}>Toplam Fiyat</Text>
         </View>
         <Text style={styles.stayText}>Tatil Süresi</Text>
         <View style={styles.lengthDayContainer}>
-          <Text style={styles.day}>{day}</Text>
+          <Text style={styles.day}>{stayDay}</Text>
           <Text style={styles.dayText}>GÜN</Text>
         </View>
       </View>
       <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={styles.image}
-        />
+        <Image source={{ uri: image }} style={styles.image} />
       </View>
+      <Pressable onPress={onDelete} style={styles.deleteButton}>
+        <AntDesign name="delete" size={24} color="red" />
+      </Pressable>
     </View>
   );
 };
@@ -118,5 +107,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderBottomLeftRadius: 40,
     resizeMode: "cover",
+  },
+  deleteButton: {
+    position: "absolute",
+    right: 10,
+    top: 10,
   },
 });

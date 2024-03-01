@@ -88,12 +88,7 @@ const LoginPage = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <MyButton title="Giriş yap" handleButton={handleLogin} />
 
-          <Pressable
-            style={styles.TextButton}
-            onPress={() => navigation.navigate("ForgotPassword")}
-          >
-            <Text style={styles.Text}>Şifremi Unuttum!</Text>
-          </Pressable>
+          
 
           <Pressable
             style={styles.TextButton}
@@ -108,9 +103,7 @@ const LoginPage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  containerKeyboardAvoidingView: {
-    flex: 1,
-  },
+ 
   container: {
     flex: 1,
     alignItems: "center",
@@ -120,7 +113,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     width: "100%",
-    marginVertical: 5,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -134,7 +126,6 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     // position: "absolute",
-    top: 100,
     width: 350,
     height: 96,
     resizeMode: "cover",
@@ -171,7 +162,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: "100%",
-    bottom: 80,
+    marginBottom: 40,
     alignItems: "center",
     justifyContent: "center",
   },
