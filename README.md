@@ -1,5 +1,14 @@
 # HotelApp
 
+### Bu proje Siliconmade Academy SM002 Sınıfı Öğrencilerinden Mustafa Kaan Sevinç - Metehan Sadıkoğlu - İbrahim Tüzer - Murat Esat Kılıç Tarafından Aşama Bitirme Projesi Olarak Yapılmıştır.
+
+Linkedin Bilgilerimiz
+
+- https://www.linkedin.com/in/kaanxcode/
+- https://www.linkedin.com/in/metehan-sad%C4%B1ko%C4%9Flu-5a07a6224/
+- https://www.linkedin.com/in/ibrahim-tuzer/
+- https://www.linkedin.com/in/murat-esat-kili%C3%A7-39331a1a2/
+
 ## Kurulum
 
 1. Github üzerinden Main adlı repoyu bilgisayarımıza indirelim
