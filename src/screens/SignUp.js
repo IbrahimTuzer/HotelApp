@@ -138,8 +138,6 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   logoImage: {
-    position: "absolute",
-    top: 70,
     width: 350,
     height: 96,
     resizeMode: "cover",
@@ -160,6 +158,7 @@ const styles = StyleSheet.create({
     flex: 3,
     width: "80%",
     marginTop: 60,
+    marginBottom: 20,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -189,8 +188,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 2,
     width: "100%",
-    position: "relative",
-    bottom: 70,
+    marginBottom: 15,
     alignItems: "center",
     justifyContent: "center",
   },

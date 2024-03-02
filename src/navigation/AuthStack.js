@@ -13,7 +13,7 @@ const AuthStack = () => {
       <Stack.Screen name='WelcomePage' component={WelcomePage}/>
       <Stack.Screen name='LoginPage' component={LoginPage}/>
       <Stack.Screen name='SignUp' component={SignUp}/>
-      <Stack.Screen name='ForgotPassword' component={ForgotPassword}/>
+  
 
     </Stack.Navigator>
   )

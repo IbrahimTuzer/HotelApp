@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import HistoryBox from "../components/HistoryBox";
-import { getReservationData } from "../../api";
+import { getReservationData, deleteReservationData } from "../../api";
 import { useSelector } from "react-redux";
 
 const HistoryPage = ({ navigation }) => {
@@ -39,6 +39,15 @@ const HistoryPage = ({ navigation }) => {
 
     fetchData();
   }, [user, reservation]);
+
+  const handleDeleteReservation = (id) => {
+    // Silme işlemi için id'ye göre filtreleme
+    deleteReservationData(id);
+    const newReservations = reservationHotels.filter(
+      (reservation) => reservation.id !== id
+    );
+    setReservationHotels(newReservations);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,6 +87,7 @@ const HistoryPage = ({ navigation }) => {
               totalPrice={item.totalPrice}
               stayDay={item.stayDay}
               image={item.image}
+              onDelete={() => handleDeleteReservation(item.id)}
             />
           )}
           style={styles.flatList}
