@@ -6,7 +6,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
-  Alert
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -76,7 +76,7 @@ const Reservation = ({ navigation, route }) => {
         // Toplam fiyat ve gece sayısı 0'dan büyükse rezervasyonu yap
         if (totalPrice > 0 && numberOfNights > 0) {
           const reservationData = {
-            hotelName: selectedRoom.name,
+            hotelName: selectedRoom.hotelName,
             image: selectedRoom.image,
             stayDay: numberOfNights.toString(),
             totalPrice: totalPrice.toString(),
@@ -84,11 +84,11 @@ const Reservation = ({ navigation, route }) => {
             checkInDate: checkInDate.toISOString(),
             checkOutDate: checkOutDate.toISOString(),
           };
-  
+
           await sendReservationData(reservationData);
           setReservationSuccess(true);
           dispatch(addReservation(reservationData));
-  
+
           // Show alert with options
           Alert.alert(
             "Rezerve Edildi",
@@ -150,7 +150,7 @@ const Reservation = ({ navigation, route }) => {
             style={styles.roomImage}
             source={{ uri: selectedRoom.image }}
           >
-            <Text style={styles.roomNameText}>{selectedRoom.room}</Text>
+            <Text style={styles.roomNameText}>{selectedRoom.hotelName}</Text>
           </ImageBackground>
         </View>
       </View>

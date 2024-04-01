@@ -2,7 +2,14 @@ import { Pressable, Text, View, Image, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons"; // AntDesign silme ikonu için
 
-const HistoryBox = ({ title, totalPrice, stayDay, image, onDelete }) => {
+const HistoryBox = ({
+  title,
+  totalPrice,
+  stayDay,
+  image,
+  onDelete,
+  userMail,
+}) => {
   // onDelete prop'u eklendi
   const formattedTitle =
     title.length > 10 ? `${title.substring(0, 10)}...` : title;
@@ -10,6 +17,7 @@ const HistoryBox = ({ title, totalPrice, stayDay, image, onDelete }) => {
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
+        <Text style={styles.mailText}>{userMail}</Text>
         <Text style={styles.title}>{formattedTitle}</Text>
         <View style={styles.priceContainer}>
           <MaterialIcons name="attach-money" size={18} color="#72BD39" />
@@ -112,5 +120,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 10,
+  },
+  mailText: {
+    fontSize: 14,
+    color: "lightgray",
   },
 });

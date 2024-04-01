@@ -7,18 +7,19 @@ import Profile from "./Profile";
 import Map from "./Map";
 import Detail from "./Detail";
 import Reservation from "./Reservation";
+import AdminDashboard from "./AdminDashboard";
+import UploadImage from "./UploadImage";
 
-export{
-
-    WelcomePage,
-    SignUp,
-    LoginPage,
-    HomePage,
-    HistoryPage,
-    Profile,
-    Map,
-    Detail,
-    Reservation,
-
-
-}
+export {
+  WelcomePage,
+  SignUp,
+  LoginPage,
+  HomePage,
+  HistoryPage,
+  Profile,
+  Map,
+  Detail,
+  Reservation,
+  AdminDashboard,
+  UploadImage,
+};

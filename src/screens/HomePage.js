@@ -68,7 +68,7 @@ const HomePage = () => {
           />
 
           <View style={styles.overlay}>
-            <Text style={styles.searchText}>Sana Uygun Tatili Bul</Text>
+            <Text style={styles.searchText}>Sana Uygun Tatili Bulra</Text>
             <TextInput
               style={styles.searchInput}
               placeholder="Otel Bul..."

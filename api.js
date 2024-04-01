@@ -7,6 +7,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import { storage } from "./firebaseConfig";
 
 // *******************************************************************************
 
@@ -100,3 +101,17 @@ export const deleteReservationData = async (reservationId) => {
 // }
 
 // *******************************************************************************
+
+// Otel bilgilerini Firebase'e yüklemek için bir fonksiyon
+export const createHotel = async (hotelData) => {
+  try {
+    const docRef = await addDoc(collection(db, "hotels"), hotelData);
+    console.log("Otel dökümanı ID ile oluşturuldu: ", docRef.id);
+  } catch (error) {
+    console.error("Otel dökümanı eklenirken hata oluştu: ", error);
+  }
+};
+
+// *******************************************************************************
+
+// resim yükleme fonksiyonu

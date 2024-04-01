@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const Rooms = (props) => {
+const Rooms = ({ roomsData }) => {
   const navigation = useNavigation();
 
   const handleSelectRoom = (selectedRoom) => {
@@ -18,28 +18,22 @@ const Rooms = (props) => {
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {props.rooms.map((room, index) => (
+      {roomsData.rooms.map((room, index) => (
         <View key={index} style={styles.roomContainer}>
           <View style={styles.roomContent}>
             <ImageBackground
-              source={{ uri: props.roomsImage[index] }}
+              source={{ uri: room.image }}
               style={styles.imageStyle}
             >
-              <Text style={styles.defaultStyle}>{room}</Text>
+              <Text style={styles.defaultStyle}>{room.name}</Text>
             </ImageBackground>
 
-            <Text style={styles.statement}>{props.roomsStatement[index]}</Text>
+            <Text style={styles.statement}>{room.statement}</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() =>
-                handleSelectRoom({
-                  room,
-                  image: props.roomsImage[index],
-                  price: props.roomsPrices[index],
-                  statement: props.roomsStatement[index],
-                  name: props.roomsData.name,
-                })
-              }
+                handleSelectRoom({ ...room, hotelName: roomsData.name })
+              } // Oda bilgileri ile birlikte otel adını da ekledik.
             >
               <Text style={styles.buttonText}>Odayı Seç</Text>
             </TouchableOpacity>

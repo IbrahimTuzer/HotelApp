@@ -88,8 +88,6 @@ const LoginPage = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <MyButton title="Giriş yap" handleButton={handleLogin} />
 
-          
-
           <Pressable
             style={styles.TextButton}
             onPress={() => navigation.navigate("SignUp")}
@@ -103,7 +101,6 @@ const LoginPage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
- 
   container: {
     flex: 1,
     alignItems: "center",

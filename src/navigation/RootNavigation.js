@@ -1,27 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
-import { NavigationContainer } from '@react-navigation/native'
-
-import AuthStack from './AuthStack'
-import UserStack from './UserStack'
-import app from "../../firebaseConfig"
-import { useDispatch, useSelector } from 'react-redux'
+import AuthStack from "./AuthStack";
+import UserStack from "./UserStack";
+import AdminStack from "./AdminStack";
 
 const RootNavigation = () => {
+  const { isAuth, isAdmin } = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log("isAuth", isAuth);
+    console.log("isAdmin", isAdmin);
+  }, [isAuth, isAdmin]);
 
-const {isAuth} = useSelector((state)=> state.user)
-
+  let Stack;
+  if (!isAuth) {
+    Stack = AuthStack;
+  } else if (isAdmin) {
+    Stack = AdminStack;
+  } else {
+    Stack = UserStack;
+  }
 
   return (
     <NavigationContainer>
-        {
-            !isAuth ? <AuthStack /> : <UserStack />
-        }
+      <Stack />
     </NavigationContainer>
-  )
-}
+  );
+};
 
-export default RootNavigation
-
-const styles = StyleSheet.create({})
+export default RootNavigation;
