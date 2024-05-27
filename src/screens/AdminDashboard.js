@@ -93,7 +93,6 @@ const AdminDashboard = () => {
                   style={{
                     width: 200,
                     height: 100,
-
                     resizeMode: "contain",
                   }}
                 />

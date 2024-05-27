@@ -11,7 +11,12 @@ import {
 import { storage } from "../../firebaseConfig";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 
-const PickImageModal = ({ modalVisible, setModalVisible, onImageSelected }) => {
+const PickImageModal = ({
+  modalVisible,
+  setModalVisible,
+  onImageSelected,
+  selectedRoomIndex,
+}) => {
   const [images, setImages] = useState([]);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Seçilen resmin URL'sini saklayan state
 
@@ -137,10 +142,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     marginBottom: 5,
     marginRight: 5,
+    borderWidth: 1,
+    borderColor: "gray",
+    resizeMode: "contain",
   },
 });
 

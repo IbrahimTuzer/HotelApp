@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { logout } from "../redux/userSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -13,10 +14,10 @@ const Profile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{ marginLeft: 35 }}>
+    <SafeAreaView style={styles.container}>
+      {/* <View style={{ marginLeft: 35 }}>
         <FontAwesome6 name="user-pen" size={110} color="#0C6968" />
-      </View>
+      </View> */}
       <Text style={styles.text}>Profilim</Text>
       {user ? (
         <Text style={styles.emailText}>E-Posta: {user.email}</Text>
@@ -28,7 +29,7 @@ const Profile = () => {
           <Text style={styles.logoutButtonText}>Çıkış Yap</Text>
         </TouchableOpacity>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -40,12 +41,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
   },
   text: {
-    fontSize: 24,
+    flex: 2,
+    justifyContent: "flex-end",
+    alignSelf: "center",
+    fontSize: 38,
     fontWeight: "bold",
+    fontFamily: "monospace",
     color: "#333",
-    marginTop: 10,
   },
   emailText: {
+    flex: 2,
     fontSize: 18,
     color: "#666",
     marginTop: 10,
@@ -54,6 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0C6968",
     padding: 10,
     marginTop: 20,
+    marginBottom: 20,
     borderRadius: 5,
   },
   logoutButtonText: {
