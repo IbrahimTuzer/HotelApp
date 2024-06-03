@@ -19,6 +19,7 @@ import {
   UploadImage,
 } from "../screens";
 import ReservationListAdmin from "../screens/ReservationListAdmin";
+import AddHotel from "../screens/AddHotel";
 
 const Tab = createBottomTabNavigator();
 
@@ -84,6 +85,11 @@ const AdminTabNavigator = () => {
             />
           ),
         }}
+      />
+      <Tab.Screen
+        name="AddHotel"
+        component={AddHotel}
+        options={{ tabBarButton: () => null }}
       />
     </Tab.Navigator>
   );

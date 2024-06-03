@@ -1,69 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Button,
+  FlatList,
   Image,
-  Platform,
+  Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createHotel } from "../../api"; // createHotel fonksiyonunun yolu sizin proje yapınıza göre değişiklik gösterebilir
-import PickImageModal from "../components/PickImageModal";
+import { getData } from "../../api"; // createHotel fonksiyonunun yolu sizin proje yapınıza göre değişiklik gösterebilir
+import { useNavigation } from "@react-navigation/native";
 
 const AdminDashboard = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [hotelData, setHotelData] = useState({
-    address: "",
-    district: "",
-    mainImage: "",
-    name: "",
-    rating: "",
-    rooms: [],
-  });
-  console.log("hotelData:", hotelData.mainImage);
+  const navigation = useNavigation();
+  const [hotels, setHotels] = useState([]);
 
-  const handleSelectedImage = (imageUrl) => {
-    setHotelData((prevState) => ({
-      ...prevState,
-      mainImage: imageUrl,
-    }));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const value = await getData();
+        setHotels(value);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const renderItem = ({ item }) => {
+    const formattedTitle =
+      item.name.length > 14 ? item.name.substring(0, 14) + "." : item.name;
+    return (
+      <View style={styles.roomContainer}>
+        <Text style={styles.title}>{formattedTitle}</Text>
+        <Image
+          style={{ width: "100%", height: 100, borderRadius: 10 }}
+          source={{ uri: item.mainImage }}
+        />
+        <Text style={styles.deleteText}>Silmek için uzun basın</Text>
+      </View>
+    );
   };
 
-  const handleOpenModal = () => {
-    setModalVisible(true); // Modalı görünür hale getir
-  };
-
-  const handleInputChange = (name, value) => {
-    setHotelData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleRoomChange = (index, name, value) => {
-    const updatedRooms = [...hotelData.rooms];
-    updatedRooms[index] = { ...updatedRooms[index], [name]: value };
-    setHotelData({ ...hotelData, rooms: updatedRooms });
-  };
-
-  const addRoom = () => {
-    setHotelData((prevState) => ({
-      ...prevState,
-      rooms: [
-        ...prevState.rooms,
-        { name: "", image: "", price: "", statement: "" },
-      ],
-    }));
-  };
-
-  const handleSubmit = async () => {
-    await createHotel(hotelData);
-    // Gönderme işlemi başarılı olduktan sonra formu temizleyebilir veya başka bir işlem yapabilirsiniz.
+  const addNewHotel = () => {
+    // Yeni otel ekleme sayfasına yönlendirme
+    navigation.navigate("AddHotel");
   };
 
   return (
@@ -71,91 +55,22 @@ const AdminDashboard = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Admin Panele Hoş Geldiniz</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.containerScroll}>
-        <TextInput
-          style={styles.input}
-          placeholder="Adres"
-          value={hotelData.address}
-          onChangeText={(text) => handleInputChange("address", text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="İlçe"
-          value={hotelData.district}
-          onChangeText={(text) => handleInputChange("district", text)}
-        />
-        <TouchableOpacity onPress={handleOpenModal}>
-          <Text style={styles.inputImage}>
-            {hotelData.mainImage ? (
-              <View style={styles.imageCont}>
-                <Image
-                  source={{ uri: hotelData.mainImage }}
-                  style={{
-                    width: 200,
-                    height: 100,
-                    resizeMode: "contain",
-                  }}
-                />
-              </View>
-            ) : (
-              "Ana Resim Seçiniz"
-            )}
-          </Text>
-          <PickImageModal
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            onImageSelected={handleSelectedImage}
-            // Ana resmin URL'sini almak için callback fonksiyonunu prop olarak iletiyoruz
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          placeholder="Otel Adı"
-          value={hotelData.name}
-          onChangeText={(text) => handleInputChange("name", text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Puan"
-          value={hotelData.rating}
-          onChangeText={(text) => handleInputChange("rating", text)}
-          keyboardType="numeric"
-        />
+      <View style={styles.topbar}>
+        <Text style={styles.count}>Güncel otel sayısı: {hotels.length}</Text>
+        <Pressable onPress={addNewHotel}>
+          <Text style={styles.addicon}>Otel ekle</Text>
+        </Pressable>
+      </View>
 
-        {/* Odaları Yönetmek için UI */}
-        {hotelData.rooms.map((room, index) => (
-          <View key={index} style={styles.roomContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Oda Adı"
-              value={room.name}
-              onChangeText={(text) => handleRoomChange(index, "name", text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Oda Resmi URL"
-              value={room.image}
-              onChangeText={(text) => handleRoomChange(index, "image", text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Oda Fiyatı"
-              value={room.price}
-              keyboardType="numeric"
-              onChangeText={(text) => handleRoomChange(index, "price", text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Oda Açıklaması"
-              value={room.statement}
-              onChangeText={(text) =>
-                handleRoomChange(index, "statement", text)
-              }
-            />
-          </View>
-        ))}
-        <Button title="Yeni Oda Ekle" onPress={addRoom} />
-        <Button title="Gönder" onPress={handleSubmit} />
+      <ScrollView contentContainerStyle={styles.containerScroll}>
+        <FlatList
+          data={hotels}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns="2"
+          style={styles.flatList}
+          scrollEnabled={false}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -166,6 +81,7 @@ export default AdminDashboard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 10,
   },
   header: {
     backgroundColor: "#0C6968",
@@ -178,37 +94,48 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   containerScroll: {
-    padding: 10,
-  },
-  input: {
-    height: 40,
-    marginVertical: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 4,
+    padding: 6,
   },
   roomContainer: {
+    width: "49%",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#0C6968",
     padding: 10,
+    gap: 4,
+    margin: 2,
     marginBottom: 10,
-    borderRadius: 4,
+    borderRadius: 10,
   },
-  imageCont: {
-    width: "100%",
-    justifyContent: "center",
+  title: {
+    fontWeight: "bold",
+    fontSize: 18,
+    alignSelf: "center",
+  },
+  flatList: {},
+  deleteText: {
+    color: "red",
+    fontSize: 12,
+    alignSelf: "center",
+  },
+  topbar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-  },
-  inputImage: {
-    height: 105,
-    marginVertical: 1,
+    padding: 10,
+    backgroundColor: "#f0f0f0",
     borderWidth: 1,
-    borderRadius: 4,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignContent: "center",
-    textAlign: "center",
-    margin: 1,
-    paddingTop: 10,
+    borderColor: "#0C6968",
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
+  count: {
+    color: "black",
+    fontSize: 16,
+  },
+  addicon: {
+    backgroundColor: "#0C6968",
+    padding: 4,
+    color: "white",
+    fontSize: 24,
   },
 });

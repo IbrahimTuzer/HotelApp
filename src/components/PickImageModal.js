@@ -18,7 +18,7 @@ const PickImageModal = ({
   selectedRoomIndex,
 }) => {
   const [images, setImages] = useState([]);
-  const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Seçilen resmin URL'sini saklayan state
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
   // Firebase Storage'dan resimleri al
   const fetchImages = async () => {
@@ -30,7 +30,7 @@ const PickImageModal = ({
       );
       setImages(urls);
     } catch (error) {
-      console.error("Error fetching images:", error);
+      console.error("Error fetching images:", error.code, error.message);
     }
   };
 
@@ -41,13 +41,13 @@ const PickImageModal = ({
 
   // Resmi seç butonuna basıldığında seçilen resmin URL'sini başka bir bileşene aktaran fonksiyon
   const handleSelectImage = () => {
-    // Seçilen resmin URL'sini ana bileşene ileten fonksiyonu çağır
     console.log("selectedImageUrl:", selectedImageUrl);
     setModalVisible(!modalVisible);
     if (selectedImageUrl) {
-      onImageSelected(selectedImageUrl); // Yeni callback fonksiyonu çağrılıyor
+      onImageSelected(selectedImageUrl);
     }
   };
+
   useEffect(() => {
     if (modalVisible) {
       fetchImages();
@@ -85,7 +85,7 @@ const PickImageModal = ({
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={handleSelectImage} // Resmi seç butonuna basıldığında handleSelectImage fonksiyonunu çağırır
+              onPress={handleSelectImage}
             >
               <Text style={styles.textStyle}>Resmi Seç</Text>
             </Pressable>

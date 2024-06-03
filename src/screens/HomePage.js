@@ -15,7 +15,7 @@ import Hotels from "../components/Hotels";
 const HomePage = () => {
   const [searchText, setSearchText] = useState("");
   const [hotels, setHotels] = useState([]);
-  console.log("hotels:", hotels);
+  //("hotels:", hotels);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
   const filterHotels = () => {

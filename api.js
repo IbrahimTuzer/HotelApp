@@ -8,6 +8,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { storage } from "./firebaseConfig";
+import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 // *******************************************************************************
 
@@ -114,4 +115,16 @@ export const createHotel = async (hotelData) => {
 
 // *******************************************************************************
 
-// resim yükleme fonksiyonu
+// resimleri çekme fonksiyornu
+export const getImages = async () => {
+  try {
+    const storageRef = ref(storage, "images/");
+    const listResult = await listAll(storageRef);
+    const urls = await Promise.all(
+      listResult.items.map((itemRef) => getDownloadURL(itemRef))
+    );
+    return urls;
+  } catch (error) {
+    console.error("Error fetching images:", error.code, error.message);
+  }
+};
