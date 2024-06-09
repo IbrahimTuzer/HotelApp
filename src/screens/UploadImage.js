@@ -58,7 +58,7 @@ const UploadImage = () => {
     });
 
     try {
-      const storageRef = ref(storage, `images/image-${Date.now()}`);
+      const storageRef = ref(storage, `hotelimages/image-${Date.now()}`);
       const result = await uploadBytes(storageRef, blob);
       blob.close();
       Alert.alert("Başarılı", "Resim yükleme işlemi başarılı.");

@@ -161,7 +161,7 @@ export const userSlice = createSlice({
         state.isAuth = true;
 
         state.isAdmin =
-          action.payload.user.email === "test@test.com" ? true : false;
+          action.payload.user.email === "admin@admin.com" ? true : false;
         state.token = action.payload.token;
         state.user = action.payload.user;
         state.successMessage = "Login Successful";
@@ -180,7 +180,7 @@ export const userSlice = createSlice({
       .addCase(autoLogin.fulfilled, (state, action) => {
         state.isAuth = true;
         state.isAdmin =
-          action.payload.user.email === "test@test.com" ? true : false;
+          action.payload.user.email === "admin@admin.com" ? true : false;
         state.token = action.payload.token;
         state.user = action.payload.user;
         state.isLoading = false;

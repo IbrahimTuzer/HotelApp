@@ -12,6 +12,7 @@ import Rooms from "../components/Rooms";
 import { Ionicons } from "@expo/vector-icons";
 
 const Detail = ({ navigation, route }) => {
+  console.log("Detail route.params.data:", route.params.data);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContainer}>

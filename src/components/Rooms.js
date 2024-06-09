@@ -22,13 +22,13 @@ const Rooms = ({ roomsData }) => {
         <View key={index} style={styles.roomContainer}>
           <View style={styles.roomContent}>
             <ImageBackground
-              source={{ uri: room.image }}
+              source={{ uri: room.roomImage }}
               style={styles.imageStyle}
             >
-              <Text style={styles.defaultStyle}>{room.name}</Text>
+              <Text style={styles.defaultStyle}>{room.roomClass}</Text>
             </ImageBackground>
 
-            <Text style={styles.statement}>{room.statement}</Text>
+            <Text style={styles.statement}>{room.roomStatement}</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() =>

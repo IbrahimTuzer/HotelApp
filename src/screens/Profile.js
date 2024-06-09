@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { logout } from "../redux/userSlice";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -15,20 +15,20 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={{ marginLeft: 35 }}>
-        <FontAwesome6 name="user-pen" size={110} color="#0C6968" />
-      </View> */}
-      <Text style={styles.text}>Profilim</Text>
-      {user ? (
-        <Text style={styles.emailText}>E-Posta: {user.email}</Text>
-      ) : (
-        <Text style={styles.emailText}>Kullanıcı giriş yapmadı.</Text>
-      )}
-      {user && (
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutButtonText}>Çıkış Yap</Text>
+      <View style={styles.header}>
+        <Text style={styles.profileText}>PROFİLİM</Text>
+      </View>
+      <View style={styles.content}>
+        <Text style={styles.text}>Kullanıcı Oturum Bilgisi</Text>
+        <Text style={styles.email}>{user.email}</Text>
+        <TouchableOpacity style={styles.signOutButton} onPress={handleLogout}>
+          <AntDesign name="logout" size={24} color="black" />
+          <Text style={styles.signOutText}>Çıkış Yap</Text>
         </TouchableOpacity>
-      )}
+        <View style={styles.iconsContainer}>
+          {/* İstediğiniz kadar ikon ekleyebilirsiniz */}
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -36,35 +36,47 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+  },
+  header: {
+    backgroundColor: "#0C6968",
+    paddingVertical: 20,
+    alignItems: "center",
+  },
+  profileText: {
+    color: "white",
+    fontSize: 24,
+  },
+  content: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
+  },
+  email: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  signOutButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  signOutText: {
+    marginLeft: 10,
+  },
+  iconsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    marginHorizontal: 10,
   },
   text: {
-    flex: 2,
-    justifyContent: "flex-end",
-    alignSelf: "center",
-    fontSize: 38,
-    fontWeight: "bold",
-    fontFamily: "monospace",
-    color: "#333",
-  },
-  emailText: {
-    flex: 2,
-    fontSize: 18,
-    color: "#666",
-    marginTop: 10,
-  },
-  logoutButton: {
-    backgroundColor: "#0C6968",
-    padding: 10,
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 5,
-  },
-  logoutButtonText: {
-    color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

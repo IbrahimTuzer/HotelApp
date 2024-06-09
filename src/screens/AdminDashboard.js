@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getData } from "../../api"; // createHotel fonksiyonunun yolu sizin proje yapınıza göre değişiklik gösterebilir
+import { deleteHotelWithId, getData } from "../../api"; // createHotel fonksiyonunun yolu sizin proje yapınıza göre değişiklik gösterebilir
 import { useNavigation } from "@react-navigation/native";
 
 const AdminDashboard = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const navigation = useNavigation();
   const [hotels, setHotels] = useState([]);
-
+  console.log("hotels:", hotels);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,26 +38,50 @@ const AdminDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [refreshing]);
+aaaaaşşşşşaaaaşşaaa
+  const deleteHotel = async (hotelId) => {
+    Alert.alert("Otel silme", "Otel silinsin mi?", [
+      {
+        text: "Evet",
+        onPress: () => deleteHotelWithId(hotelId),
+      },
+      {
+        text: "Hayır",
+        onPress: () => console.log("Otel silme işlemi iptal edildi."),
+      },
+    ]);
+
+    // Refresh the hotels list after deletion
+    const value = await getData();
+    setHotels(value);
+  };
 
   const renderItem = ({ item }) => {
     const formattedTitle =
       item.name.length > 14 ? item.name.substring(0, 14) + "." : item.name;
+    console.log("item:", item);
     return (
-      <View style={styles.roomContainer}>
+      <Pressable
+        style={styles.roomContainer}
+        onLongPress={() => deleteHotel(item.id)}
+        onPress={() =>
+          navigation.navigate("AddHotel", { hotel: item, isEdit: true })
+        }
+      >
         <Text style={styles.title}>{formattedTitle}</Text>
         <Image
           style={{ width: "100%", height: 100, borderRadius: 10 }}
           source={{ uri: item.mainImage }}
         />
         <Text style={styles.deleteText}>Silmek için uzun basın</Text>
-      </View>
+      </Pressable>
     );
   };
 
   const addNewHotel = () => {
     // Yeni otel ekleme sayfasına yönlendirme
-    navigation.navigate("AddHotel");
+    navigation.navigate("AddHotel", { isEdit: false });
   };
 
   return (
@@ -62,7 +96,12 @@ const AdminDashboard = () => {
         </Pressable>
       </View>
 
-      <ScrollView contentContainerStyle={styles.containerScroll}>
+      <ScrollView
+        contentContainerStyle={styles.containerScroll}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <FlatList
           data={hotels}
           renderItem={renderItem}

@@ -23,7 +23,7 @@ const PickImageModal = ({
   // Firebase Storage'dan resimleri al
   const fetchImages = async () => {
     try {
-      const storageRef = ref(storage, "images/");
+      const storageRef = ref(storage, "hotelimages/");
       const listResult = await listAll(storageRef);
       const urls = await Promise.all(
         listResult.items.map((itemRef) => getDownloadURL(itemRef))

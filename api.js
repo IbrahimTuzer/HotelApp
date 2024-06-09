@@ -118,7 +118,7 @@ export const createHotel = async (hotelData) => {
 // resimleri çekme fonksiyornu
 export const getImages = async () => {
   try {
-    const storageRef = ref(storage, "images/");
+    const storageRef = ref(storage, "hotelimages/");
     const listResult = await listAll(storageRef);
     const urls = await Promise.all(
       listResult.items.map((itemRef) => getDownloadURL(itemRef))
@@ -126,5 +126,29 @@ export const getImages = async () => {
     return urls;
   } catch (error) {
     console.error("Error fetching images:", error.code, error.message);
+  }
+};
+
+// otel silme fonksiyonu
+export const deleteHotelWithId = async (hotelId) => {
+  try {
+    // Belgeyi sil
+    await deleteDoc(doc(db, "hotels", hotelId));
+    console.log("Document successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+    throw error; // Hata durumunda hatayı ileterek işlemi kesintiye uğrat
+  }
+};
+
+// otel update fonksiyonu
+export const updateHotel = async (hotelId, hotelData) => {
+  try {
+    // Belgeyi güncelle
+    await updateDoc(doc(db, "hotels", hotelId), hotelData);
+    console.log("Document successfully updated!");
+  } catch (error) {
+    console.error("Error updating document: ", error);
+    throw error; // Hata durumunda hatayı ileterek işlemi kesintiye uğrat
   }
 };

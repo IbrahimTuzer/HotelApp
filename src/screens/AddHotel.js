@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -11,17 +11,40 @@ import {
   Modal,
   FlatList,
   Image,
+  Alert,
 } from "react-native";
-import { getImages } from "../../api";
-import { set } from "firebase/database";
+import { createHotel, getImages, updateHotel } from "../../api";
+import { useNavigation } from "@react-navigation/native";
 
-const AddHotel = () => {
+const AddHotel = ({ route }) => {
+  const [update, setUpdate] = useState(false);
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [images, setImages] = useState([]);
   const [mainImage, setMainImage] = useState(null);
   const [roomOneImage, setRoomOneImage] = useState(null);
   const [roomTwoImage, setRoomTwoImage] = useState(null);
   const [roomThreeImage, setRoomThreeImage] = useState(null);
+  const [hotelName, setHotelName] = useState(null);
+
+  const [hotelAddress, setHotelAddress] = useState(null);
+  const [hotelDistrict, setHotelDistrict] = useState(null);
+  const [hotelRating, setHotelRating] = useState(null);
+  const [roomOne, setRoomOne] = useState({
+    roomClass: null,
+    roomPrice: null,
+    roomStatement: null,
+  });
+  const [roomTwo, setRoomTwo] = useState({
+    roomClass: null,
+    roomPrice: null,
+    roomStatement: null,
+  });
+  const [roomThree, setRoomThree] = useState({
+    roomClass: null,
+    roomPrice: null,
+    roomStatement: null,
+  });
   const [roomInputs, setRoomInputs] = useState({
     room1: false,
     room2: false,
@@ -29,10 +52,111 @@ const AddHotel = () => {
   });
   const [imageSelectionContext, setImageSelectionContext] = useState(null);
 
-  console.log("mainImage:", mainImage);
-  console.log("roomOneImage:", roomOneImage);
-  console.log("roomTwoImage:", roomTwoImage);
-  console.log("roomThreeImage:", roomThreeImage);
+  useEffect(() => {
+    if (route && route.params && route.params.hotel) {
+      console.log("Route params:", route.params);
+      setUpdate(true);
+      const hotel = route.params.hotel;
+      setMainImage(hotel.mainImage);
+      setHotelName(hotel.name);
+      setHotelAddress(hotel.address);
+      setHotelDistrict(hotel.district);
+      setHotelRating(hotel.rating);
+      if (hotel.rooms && hotel.rooms.length > 0) {
+        if (hotel.rooms[0]) {
+          setRoomOne(hotel.rooms[0]);
+          setRoomOneImage(hotel.rooms[0].roomImage);
+          setRoomInputs((prev) => ({ ...prev, room1: true }));
+        }
+        if (hotel.rooms[1]) {
+          setRoomTwo(hotel.rooms[1]);
+          setRoomTwoImage(hotel.rooms[1].roomImage);
+          setRoomInputs((prev) => ({ ...prev, room2: true }));
+        }
+        if (hotel.rooms[2]) {
+          setRoomThree(hotel.rooms[2]);
+          setRoomThreeImage(hotel.rooms[2].roomImage);
+          setRoomInputs((prev) => ({ ...prev, room3: true }));
+        }
+      }
+    }
+  }, [route]);
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const isFormValid = () => {
+    return (
+      hotelName &&
+      hotelAddress &&
+      hotelDistrict &&
+      hotelRating &&
+      mainImage &&
+      roomOne.roomClass &&
+      roomOne.roomPrice &&
+      roomOne.roomStatement &&
+      roomOneImage &&
+      roomTwo.roomClass &&
+      roomTwo.roomPrice &&
+      roomTwo.roomStatement &&
+      roomTwoImage &&
+      roomThree.roomClass &&
+      roomThree.roomPrice &&
+      roomThree.roomStatement &&
+      roomThreeImage
+    );
+  };
+
+  const sendHotelData = async (isEdit) => {
+    if (!isFormValid()) {
+      Alert.alert("Eksik Alanlar", "Lütfen tüm alanları doldurun.");
+      return;
+    }
+
+    const hotelData = {
+      name: hotelName,
+      address: hotelAddress,
+      district: hotelDistrict,
+      rating: hotelRating,
+      mainImage: mainImage,
+      rooms: [
+        {
+          roomClass: roomOne.roomClass,
+          roomPrice: roomOne.roomPrice,
+          roomStatement: roomOne.roomStatement,
+          roomImage: roomOneImage,
+        },
+        {
+          roomClass: roomTwo.roomClass,
+          roomPrice: roomTwo.roomPrice,
+          roomStatement: roomTwo.roomStatement,
+          roomImage: roomTwoImage,
+        },
+        {
+          roomClass: roomThree.roomClass,
+          roomPrice: roomThree.roomPrice,
+          roomStatement: roomThree.roomStatement,
+          roomImage: roomThreeImage,
+        },
+      ],
+    };
+
+    try {
+      if (isEdit) {
+        const hotelId = route.params.hotel.id; // hotelId'yi alın
+        if (!hotelId) throw new Error("Hotel ID is missing");
+        await updateHotel(hotelId, hotelData); // Güncelleme işlevi
+        console.log("Hotel updated:");
+      } else {
+        await createHotel(hotelData); // Oluşturma işlevi
+        console.log("Hotel created:");
+      }
+      navigation.navigate("AdminDashboard");
+    } catch (error) {
+      console.error("Error sending hotel data:", error.code, error.message);
+    }
+  };
+
   const fetchImages = async () => {
     try {
       const data = await getImages();
@@ -50,7 +174,6 @@ const AddHotel = () => {
   const selectImage = (context) => {
     setImageSelectionContext(context);
     setModalVisible(true);
-    fetchImages();
   };
 
   const handleImageSelect = (uri) => {
@@ -78,15 +201,27 @@ const AddHotel = () => {
       <ScrollView>
         <View style={styles.hotelContainer}>
           <Text style={styles.label}>HOTEL NAME</Text>
-          <TextInput style={styles.input} placeholder="Otel ismi giriniz" />
+          <TextInput
+            style={styles.input}
+            placeholder="Otel ismi giriniz"
+            value={hotelName}
+            onChangeText={setHotelName}
+          />
           <Text style={styles.label}>HOTEL ADDRESS</Text>
-          <TextInput style={styles.input} placeholder="Otel adresi giriniz" />
+          <TextInput
+            style={styles.input}
+            placeholder="Otel adresi giriniz"
+            value={hotelAddress}
+            onChangeText={setHotelAddress}
+          />
           <View style={styles.rowContainer}>
             <View style={styles.columnContainer}>
               <Text style={styles.label}>HOTEL DISTRICT</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Otel şehri giriniz"
+                value={hotelDistrict}
+                onChangeText={setHotelDistrict}
               />
             </View>
             <View style={styles.columnContainer}>
@@ -94,6 +229,8 @@ const AddHotel = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Otel puanı giriniz"
+                value={hotelRating}
+                onChangeText={setHotelRating}
               />
             </View>
           </View>
@@ -119,16 +256,28 @@ const AddHotel = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Ekonomik,Standart,Lüks"
+                value={roomOne.roomClass}
+                onChangeText={(text) =>
+                  setRoomOne((prev) => ({ ...prev, roomClass: text }))
+                }
               />
               <Text style={styles.label}>ROOM 1 PRICE </Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda Fiyatı Giriniz"
+                value={roomOne.roomPrice}
+                onChangeText={(text) =>
+                  setRoomOne((prev) => ({ ...prev, roomPrice: text }))
+                }
               />
               <Text style={styles.label}>ROOM 1 STATEMENT</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda açıklamsı giriniz"
+                value={roomOne.roomStatement}
+                onChangeText={(text) =>
+                  setRoomOne((prev) => ({ ...prev, roomStatement: text }))
+                }
               />
               <Pressable
                 style={[roomOneImage ? styles.selectImage : styles.button]}
@@ -153,16 +302,28 @@ const AddHotel = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Ekonomik,Standart,Lüks"
+                value={roomTwo.roomClass}
+                onChangeText={(text) =>
+                  setRoomTwo((prev) => ({ ...prev, roomClass: text }))
+                }
               />
               <Text style={styles.label}>ROOM 2 PRICE </Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda Fiyatı Giriniz"
+                value={roomTwo.roomPrice}
+                onChangeText={(text) =>
+                  setRoomTwo((prev) => ({ ...prev, roomPrice: text }))
+                }
               />
               <Text style={styles.label}>ROOM 2 STATEMENT</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda açıklamsı giriniz"
+                value={roomTwo.roomStatement}
+                onChangeText={(text) =>
+                  setRoomTwo((prev) => ({ ...prev, roomStatement: text }))
+                }
               />
               <Pressable
                 style={[roomTwoImage ? styles.selectImage : styles.button]}
@@ -187,16 +348,28 @@ const AddHotel = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Ekonomik,Standart,Lüks"
+                value={roomThree.roomClass}
+                onChangeText={(text) =>
+                  setRoomThree((prev) => ({ ...prev, roomClass: text }))
+                }
               />
               <Text style={styles.label}>ROOM 3 PRICE </Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda Fiyatı Giriniz"
+                value={roomThree.roomPrice}
+                onChangeText={(text) =>
+                  setRoomThree((prev) => ({ ...prev, roomPrice: text }))
+                }
               />
               <Text style={styles.label}>ROOM 3 STATEMENT</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Oda açıklamsı giriniz"
+                value={roomThree.roomStatement}
+                onChangeText={(text) =>
+                  setRoomThree((prev) => ({ ...prev, roomStatement: text }))
+                }
               />
               <Pressable
                 style={[roomThreeImage ? styles.selectImage : styles.button]}
@@ -206,6 +379,19 @@ const AddHotel = () => {
               </Pressable>
             </View>
           )}
+
+          <Pressable
+            style={[
+              styles.sendButton,
+              { backgroundColor: isFormValid() ? "#0C6968" : "#ccc" },
+            ]}
+            onPress={() => sendHotelData(route.params.isEdit)}
+            disabled={!isFormValid()}
+          >
+            <Text style={styles.textSendButton}>
+              {route.params.isEdit ? "GÜNCELLE" : "OLUŞTUR"}
+            </Text>
+          </Pressable>
 
           <Modal
             animationType="slide"
@@ -352,5 +538,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     marginBottom: 10,
+  },
+  sendButton: {
+    backgroundColor: "blue",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  textSendButton: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
   },
 });

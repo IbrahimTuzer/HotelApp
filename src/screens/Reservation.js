@@ -24,7 +24,7 @@ const Reservation = ({ navigation, route }) => {
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [numberOfNights, setNumberOfNights] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(selectedRoom.price); // Default olarak günlük ücret gösterilsin
+  const [totalPrice, setTotalPrice] = useState(selectedRoom.roomPrice); // Default olarak günlük ücret gösterilsin
   const [showCheckInDatePicker, setShowCheckInDatePicker] = useState(false);
   const [showCheckOutDatePicker, setShowCheckOutDatePicker] = useState(false);
   const [reservationSuccess, setReservationSuccess] = useState(false); // Rezervasyon işlemi başarılı mı?
@@ -35,11 +35,11 @@ const Reservation = ({ navigation, route }) => {
       setCheckInDate(new Date());
       setCheckOutDate(new Date());
       setNumberOfNights(0);
-      setTotalPrice(selectedRoom.price);
+      setTotalPrice(selectedRoom.roomPrice);
 
       setReservationSuccess(false); // Rezervasyon başarısını sıfırla
     }
-  }, [reservationSuccess, selectedRoom.price]);
+  }, [reservationSuccess, selectedRoom.roomPrice]);
 
   useEffect(() => {
     calculateNumberOfNights(checkInDate, checkOutDate);
@@ -66,7 +66,7 @@ const Reservation = ({ navigation, route }) => {
     const diffDays = Math.round(Math.abs((endDate - startDate) / oneDay));
     setNumberOfNights(diffDays);
     // Seçilen tarihlerin arasındaki gece sayısını hesapladıktan sonra toplam ücreti güncelle
-    setTotalPrice(diffDays * selectedRoom.price);
+    setTotalPrice(diffDays * selectedRoom.roomPrice);
   };
 
   const handleReservation = async () => {
@@ -77,7 +77,7 @@ const Reservation = ({ navigation, route }) => {
         if (totalPrice > 0 && numberOfNights > 0) {
           const reservationData = {
             hotelName: selectedRoom.hotelName,
-            image: selectedRoom.image,
+            image: selectedRoom.roomImage,
             stayDay: numberOfNights.toString(),
             totalPrice: totalPrice.toString(),
             userMail: user.email,
@@ -117,6 +117,7 @@ const Reservation = ({ navigation, route }) => {
       console.error("Error while sending reservation data:", error);
     }
   };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -148,9 +149,9 @@ const Reservation = ({ navigation, route }) => {
         <View style={{ flex: 1, width: "95%" }}>
           <ImageBackground
             style={styles.roomImage}
-            source={{ uri: selectedRoom.image }}
+            source={{ uri: selectedRoom.roomImage }}
           >
-            <Text style={styles.roomNameText}>{selectedRoom.hotelName}</Text>
+            <Text style={styles.roomNameText}>{selectedRoom.roomClass}</Text>
           </ImageBackground>
         </View>
       </View>
@@ -213,9 +214,11 @@ const Reservation = ({ navigation, route }) => {
             width: "90%",
           }}
         >
-          {totalPrice < selectedRoom.price ? (
+          {totalPrice < selectedRoom.roomPrice ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={styles.priceText}>Fiyat:{selectedRoom.price}</Text>
+              <Text style={styles.priceText}>
+                Fiyat:{selectedRoom.roomPrice}
+              </Text>
               <MaterialIcons
                 style={styles.dolarIcon}
                 name="attach-money"
@@ -240,7 +243,7 @@ const Reservation = ({ navigation, route }) => {
           {totalPrice > 0 && numberOfNights > 0 ? (
             <Pressable
               style={({ pressed }) => [
-                { transfsorm: [{ translateX: pressed ? -5 : 0 }] },
+                { transform: [{ translateX: pressed ? -5 : 0 }] },
                 styles.button,
               ]}
               onPress={handleReservation}
